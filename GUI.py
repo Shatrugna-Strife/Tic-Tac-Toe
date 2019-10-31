@@ -1,41 +1,39 @@
 import tkinter
+import constant
+import cpu
+import random
 
-rect_diff = 10
-start = 50
-grid_size = 50
-grid = 4
-State = [[0 for _ in range(grid)] for _ in range(grid)]
+State = [[None for _ in range(constant.grid)] for _ in range(constant.grid)]
 root = tkinter.Tk()
 main_canvas = tkinter.Canvas(root, height = 800, width = 800)
+
 def create_grid():
-    for i in range(grid+1):
-        main_canvas.create_line(start+i*grid_size, start, start+i*grid_size, start+grid_size*grid)
-        main_canvas.create_line(start, start+i*grid_size, start+grid_size*grid ,start+i*grid_size)
-rect = [[0 for _ in range(grid)] for _ in range(grid)]
+    for i in range(constant.grid+1):
+        main_canvas.create_line(constant.start+i*constant.grid_size, constant.start, constant.start+i*constant.grid_size, constant.start+constant.grid_size*constant.grid)
+        main_canvas.create_line(constant.start, constant.start+i*constant.grid_size, constant.start+constant.grid_size*constant.grid ,constant.start+i*constant.grid_size)
+rect = [[0 for _ in range(constant.grid)] for _ in range(constant.grid)]
+
 def create_rect_touch():
-    for i in range(grid):
-        for j in range(grid):
-            rect[i][j] = main_canvas.create_rectangle(start+j*grid_size+rect_diff, start+i*grid_size+rect_diff, start+j*grid_size+grid_size-rect_diff, start+i*grid_size+grid_size-rect_diff,fill = 'red')
+    for i in range(constant.grid):
+        for j in range(constant.grid):
+            rect[i][j] = main_canvas.create_rectangle(constant.start+j*constant.grid_size+constant.rect_diff, constant.start+i*constant.grid_size+constant.rect_diff, constant.start+j*constant.grid_size+constant.grid_size-constant.rect_diff, constant.start+i*constant.grid_size+constant.grid_size-constant.rect_diff,fill = 'red')
+
 create_grid()
 create_rect_touch()
-
-def state_change(x, y):
-    for _ range
-    if State[][y]
-    State[x][y] = 1
-    main_canvas.create_oval(start+y*grid_size, start+x*grid_size, start+(y+1)*grid_size, start+(x+1)*grid_size, fill = 'green')
 
 def insert_block(event):
     X = event.x
     Y = event.y
-    y_val = (X-start)//grid_size
-    x_val = (Y-start)//grid_size
-    state_change(x_val, y_val)
-    print(x_val, y_val)
+    y_val = (X-constant.start)//constant.grid_size
+    x_val = (Y-constant.start)//constant.grid_size
+    constant.state_change(y_val, State, main_canvas, 'u')
+    cpu.cpu_turn(State, main_canvas)
+    # print(State)
 
-for i in range(grid):
-    for j in range(grid):
+for i in range(constant.grid):
+    for j in range(constant.grid):
         main_canvas.tag_bind(rect[i][j], '<Button-1>', insert_block)
-
+# cpu.cpu_turn(State, main_canvas)
+constant.state_change(random.randint(0, 4), State, main_canvas, 'p')
 main_canvas.pack()
 root.mainloop()
